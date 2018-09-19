@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Categories;
 
 
+use App\Services\ServiceFactory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
 use Validator;
 use Cache;
-use App\Services\Factory\ServiceFactory;
+use App\Services\Factory\bak;
 
 class CategoryController extends Controller
 {
@@ -128,9 +129,7 @@ class CategoryController extends Controller
     }
 
     public function delete ($id) {
-
-
-        $result = ServiceFactory::create('delete')->execute($id);
+        $result = service("delete_category")->execute($id);
         return redirect()->route('category.index')->with(['delResult'=>$result]);
     }
 

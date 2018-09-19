@@ -2,29 +2,32 @@
 /**
  * Created by PhpStorm.
  * User: liemleitvn
- * Date: 19/09/2018
- * Time: 10:14
+ * Date: 20/09/2018
+ * Time: 00:34
  */
 
 namespace App\Services\Factory;
 
-use App\Services\Category\DeleteCategoryService;
-use App\Services\Category\InsertCategoryService;
 
 class ServiceFactory
 {
-
-    public static $category = [
-        'insert'=> InsertCategoryService::class,
-        'delete'=> DeleteCategoryService::class,
-    ];
-
-
-    public static function create ($action) {
-
-        if(!array_key_exists($action, ServiceFactory::$category)) {
-            throw new  \Exception('Action is invalid!');
-        }
-        return app(ServiceFactory::$category[$action]);
+    protected function __construct()
+    {
     }
+
+    public static function create ($provider) {
+        $providers = ServiceProvider::register();
+        if(!isset($providers[$provider])) {
+            throw new ServiceException("Provider {$provider} is not found!");
+        }
+
+        $nameClass = $providers[$provider];
+
+        if (!class_exists($nameClass)) {
+            throw new ServiceException("Class {$nameClass} is not found!");
+        }
+
+        return app($nameClass);
+    }
+
 }
