@@ -1,0 +1,11 @@
+https://drive.google.com/file/d/1kL2NZeTaAK8CWn_CK7QiX1vQdsGhFWfi/view
+https://drive.google.com/file/d/14DDnSApcbksOq8C0ASKIBVcDgnlk7nsH/view
+https://drive.google.com/file/d/1AFkaF8s5-PBlIrhHt67WjxAowdnpXEcu/view
+https://drive.google.com/file/d/12-kVZGjpIxkI_vHJkAy0d-mHdquvLJQP/view
+https://drive.google.com/file/d/19eH5MGtZCUHw7uFOwNjuQh1MwvkvS39a/view
+https://drive.google.com/file/d/1pC_WmB-SBCcdwWwdrZ-DCgwH7H7NyMuI/view
+https://drive.google.com/file/d/1JmNCbwgVdZCVFAg0SyixZcWQNl7u-E9q/view
+https://viblo.asia/p/tim-hieu-ve-authentication-trong-laravel-Ljy5VoG3Kra
+https://giaphiep.com/docs/5.3/authentication
+
+Command line sql: https://gist.github.com/hofmannsven/9164408
