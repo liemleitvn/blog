@@ -167,6 +167,8 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
         App\Providers\HelperServiceProvider::class,
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+
 
         /*
          * Package Service Providers...
@@ -233,6 +235,7 @@ return [
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
 
     ],
 

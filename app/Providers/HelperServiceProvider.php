@@ -25,6 +25,7 @@ class HelperServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        //require file bootstrap o helpers vao he thong
         require_once app_path() . '/Helpers/bootstrap.php';
     }
 }

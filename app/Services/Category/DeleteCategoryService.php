@@ -37,7 +37,6 @@ class DeleteCategoryService
 
         }
         catch (\Exception $e) {
-            dd($e);
             DB::rollback();
             return false;
         }

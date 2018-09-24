@@ -129,6 +129,8 @@ class CategoryController extends Controller
     }
 
     public function delete ($id) {
+        //service() nam trong Helpers/bootstrap.php
+        //Thuc thi viec khoi tao doi tuong factory
         $result = service("delete_category")->execute($id);
         return redirect()->route('category.index')->with(['delResult'=>$result]);
     }

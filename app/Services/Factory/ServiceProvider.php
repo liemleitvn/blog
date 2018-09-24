@@ -16,6 +16,7 @@ class ServiceProvider
     {
     }
 
+    //tao 1 mang cac providers dung cho class ServiceFactory
     public static function register() {
         return [
             'delete_category'=>\App\Services\Category\DeleteCategoryService::class,
