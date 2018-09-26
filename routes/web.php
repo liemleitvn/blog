@@ -19,8 +19,10 @@ use Illuminate\Auth\Middleware\Authorize;
 //dd($test);
 
 
-
-
+//php information
+Route::get('info', function() {
+    phpinfo();
+});
 
 Route::get('/', function () {
     return view('welcome');

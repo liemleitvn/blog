@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use JWTAuth;
@@ -18,17 +19,27 @@ class UserController extends Controller
     }
 
     public function register(Request $request){
-        $user = $this->user->create([
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password'))
-        ]);
+        $checkExistUser = $this->user->where('email','=',$request->get('email'))->get()->toArray();
+        if(count($checkExistUser)==0) {
+            $user = $this->user->create([
+                'name' => $request->get('name'),
+                'email' => $request->get('email'),
+                'password' => Hash::make($request->get('password'))
+            ]);
 
-        return response()->json([
-            'status'=> 200,
-            'message'=> 'User created successfully',
-            'data'=>$user
-        ]);
+            return response()->json([
+                'status'=> 200,
+                'message'=> 'User created successfully',
+                'data'=>$user
+            ]);
+        }
+        else {
+            return response()->json([
+                'status'=>401,
+                'message'=>'User is adready'
+            ], 401);
+        }
+
     }
 
     public function login(Request $request){
@@ -47,6 +58,12 @@ class UserController extends Controller
 
     public function getUserInfo(Request $request){
         $user = JWTAuth::toUser($request->token);
-        return response()->json(['result' => $user]);
+        if($user) {
+            return response()->json(['result' => $user],200);
+        }
+        else {
+            return response()->json(['User not found'], 200);
+        }
+
     }
 }
