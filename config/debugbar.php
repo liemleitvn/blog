@@ -71,7 +71,7 @@ return [
 
     /*
      |--------------------------------------------------------------------------
-     | Custom Error Handler for Deprecated warnings
+     | Custom Error ApiException for Deprecated warnings
      |--------------------------------------------------------------------------
      |
      | When enabled, the Debugbar shows deprecated warnings for Symfony components

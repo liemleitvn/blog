@@ -6,9 +6,19 @@ use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Auth\AuthenticationException;
+use App\Exceptions\Traits\RestTrait;
+use App\Exceptions\Traits\RestExceptionHandlerTrait;
 
 class Handler extends ExceptionHandler
 {
+
+    /**
+     * Trait bat loi api
+     */
+    use RestTrait;
+    use RestExceptionHandlerTrait;
+
+
     /**
      * A list of the exception types that are not reported.
      *
@@ -50,6 +60,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if($request->wantsJson()) {
+            $retval = $this->getJsonResponseForException($request, $e);
+            return $retval;
+        }
         if ($e instanceof HttpException && $e->getStatusCode()== 401) {
             return response()->view('errors.401', ['message' => $e->getMessage()]);
         } 

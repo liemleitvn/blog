@@ -168,6 +168,7 @@ return [
         Barryvdh\Snappy\ServiceProvider::class,
         App\Providers\HelperServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+        Evercode1\TraitMaker\TraitMakerServiceProvider::class,
 
 
         /*

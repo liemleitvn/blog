@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "04185556fd6cb8b3edd7d2c6659c44b1",
+    "content-hash": "5703347a65cd1d53e7da414da3e005f7",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -391,6 +391,59 @@
                 "parser"
             ],
             "time": "2018-03-08T01:11:30+00:00"
+        },
+        {
+            "name": "evercode1/trait-maker",
+            "version": "1.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/evercode1/trait-maker.git",
+                "reference": "22636ad24439608a9dcd20ec20cd82a10cab0bbe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/evercode1/trait-maker/zipball/22636ad24439608a9dcd20ec20cd82a10cab0bbe",
+                "reference": "22636ad24439608a9dcd20ec20cd82a10cab0bbe",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.1",
+                "php": "5.6.*|~7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Evercode1\\TraitMaker\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bill Keck",
+                    "email": "ikon321@yahoo.com",
+                    "homepage": "https://github.com/evercode1",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Artisan Command To Create A Trait Stub",
+            "homepage": "https://github.com/evercode1/trait-maker",
+            "keywords": [
+                "Evercode1",
+                "Laravel 5.2",
+                "artisan",
+                "laravel",
+                "laravel traits",
+                "trait-maker"
+            ],
+            "time": "2016-04-06T02:34:14+00:00"
         },
         {
             "name": "fideloper/proxy",

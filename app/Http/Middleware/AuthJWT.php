@@ -6,7 +6,7 @@ use Closure;
 use JWTAuth;
 use Exception;
 
-class authJWT
+class AuthJWT
 {
     /**
      * Handle an incoming request.
@@ -18,7 +18,10 @@ class authJWT
     public function handle($request, Closure $next)
     {
         try {
-            $user = JWTAuth::toUser($request->input('token'));
+            $user = JWTAuth::parseToken()->authenticate();
+            if(!$user) {
+                return response()->json(['user_not_found'], 404);
+            }
         }catch (JWTException $e) {
             if($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
                 return response()->json(['token_expired'], $e->getStatusCode());
@@ -28,6 +31,7 @@ class authJWT
                 return response()->json(['error'=>'Token is required']);
             }
         }
+
         return $next($request);
     }
 }
