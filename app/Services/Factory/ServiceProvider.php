@@ -9,6 +9,8 @@
 namespace App\Services\Factory;
 
 
+use App\Services\Post\InsertPostService;
+
 class ServiceProvider
 {
 
@@ -21,6 +23,7 @@ class ServiceProvider
         return [
             'delete_category'=>\App\Services\Category\DeleteCategoryService::class,
             'insert_category'=>\App\Services\Category\InsertCategoryService::class,
+            'insert_post'=>\App\Services\Post\InsertPostService::class,
         ];
     }
 

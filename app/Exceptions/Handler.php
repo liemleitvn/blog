@@ -3,11 +3,14 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Auth\AuthenticationException;
 use App\Exceptions\Traits\RestTrait;
 use App\Exceptions\Traits\RestExceptionHandlerTrait;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -60,20 +63,57 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        if($request->wantsJson()) {
-            $retval = $this->getJsonResponseForException($request, $e);
-            return $retval;
+
+        if($request->isJson()) {
+
+            if($e instanceof ModelNotFoundException) {
+                return response()->json([
+                    'data' => [
+                        'message' => 'Resource not found',
+                        'status_code' => Response::HTTP_NOT_FOUND
+                    ]
+                ], Response::HTTP_NOT_FOUND);
+            }
+            if($e instanceof NotFoundHttpException) {
+                return response()->json([
+                    'data' => [
+                        'message' => 'Endpoint not found',
+                        'status_code' => Response::HTTP_NOT_FOUND
+                    ]
+                ], Response::HTTP_NOT_FOUND);
+            }
+            return response()->json([
+                'data' => (object)[],
+                'message' => $e->getMessage(),
+                'status_code' => Response::HTTP_BAD_REQUEST
+            ], Response::HTTP_BAD_REQUEST);
         }
-        if ($e instanceof HttpException && $e->getStatusCode()== 401) {
-            return response()->view('errors.401', ['message' => $e->getMessage()]);
-        } 
-        elseif ($e instanceof HttpException && $e->getStatusCode()== 404) {
-            return response()->view('errors.404',['message' => $e->getMessage()]);
+
+        if($this->isHttpException($e)) {
+            switch ($e->$e->getStatusCode()) {
+                case 401:
+                    return response()->view('errors.401', ['message' => $e->getMessage()]);
+                    break;
+                case 403:
+                    return response()->view('errors.404',['message' => $e->getMessage()]);
+                    break;
+                case 404:
+                    response()->view('errors.403',['message' => $e->getMessage()]);
+                    break;
+            }
         }
-        elseif ($e instanceof HttpException && $e->getStatusCode()== 403) {
-            return response()->view('errors.403',['message' => $e->getMessage()]);
-        }
+
+//        if ($e instanceof HttpException && $e->getStatusCode()== 401) {
+//            return response()->view('errors.401', ['message' => $e->getMessage()]);
+//        }
+//        elseif ($e instanceof HttpException && $e->getStatusCode()== 404) {
+//            return response()->view('errors.404',['message' => $e->getMessage()]);
+//        }
+//        elseif ($e instanceof HttpException && $e->getStatusCode()== 403) {
+//            return response()->view('errors.403',['message' => $e->getMessage()]);
+//        }
             # code...
+
         return parent::render($request, $e);
     }
 
