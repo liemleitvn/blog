@@ -89,7 +89,7 @@ class Handler extends ExceptionHandler
         }
 
         if($this->isHttpException($e)) {
-            switch ($e->$e->getStatusCode()) {
+            switch ($e->getStatusCode()) {
                 case 401:
                     return response()->view('errors.401', ['message' => $e->getMessage()]);
                     break;
@@ -101,17 +101,6 @@ class Handler extends ExceptionHandler
                     break;
             }
         }
-
-//        if ($e instanceof HttpException && $e->getStatusCode()== 401) {
-//            return response()->view('errors.401', ['message' => $e->getMessage()]);
-//        }
-//        elseif ($e instanceof HttpException && $e->getStatusCode()== 404) {
-//            return response()->view('errors.404',['message' => $e->getMessage()]);
-//        }
-//        elseif ($e instanceof HttpException && $e->getStatusCode()== 403) {
-//            return response()->view('errors.403',['message' => $e->getMessage()]);
-//        }
-            # code...
 
         return parent::render($request, $e);
     }

@@ -16,15 +16,37 @@ class CategoryController extends Controller
     }
 
     public function index() {
-
+        try {
+            $result = $this->categoryRepo->all()->toArray();
+            if(count($result)>0) {
+                return response()->json($result, 200);
+            }
+            else {
+                return response()->json(['meseage'=>'The posts is not already.'], 404);
+            }
+        }
+        catch (\Exception $e) {
+            return response()->json($e);
+        }
     }
 
     public function show ($id) {
-
+        try {
+            $result = $this->categoryRepo->find($id);
+            if($result) {
+                return response()->json($result, 200);
+            }
+            else {
+                return response()->json(['error'=>'The posts is not already.'], 404);
+            }
+        }
+        catch (\Exception $e) {
+            return response()->json($e);
+        }
     }
 
     public function store(Request $request) {
-        $data = array();
+        
 
     }
 

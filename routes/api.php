@@ -37,7 +37,7 @@ Route::group(['prefix'=>'posts', 'middleware' => 'jwt.auth','namespace'=>'Api' ]
     Route::delete('{id}', ['uses'=>'PostController@delete', 'name'=>'delete']);
 });
 
-Route::group(['prefix'=>'categories', 'middleware' => 'jwt.auth','namespace'=>'Api' ], function () {
+Route::group(['prefix'=>'categories', 'middleware' => 'md5.auth','namespace'=>'Api' ], function () {
 
     Route::get('',['uses'=>'CategoryController@index', 'name'=>'index']);
     Route::get('/{id}', ['uses'=>'CategoryController@show', 'name'=>'show']);

@@ -10,7 +10,6 @@ namespace App\Services\Post;
 
 use App\Repositories\Contracts\PostRepositoryInterface;
 use Validator;
-use App\Http\Resources\PostResource;
 
 class UpdatePostService
 {

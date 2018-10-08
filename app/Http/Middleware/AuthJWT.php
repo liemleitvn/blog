@@ -32,6 +32,7 @@ class AuthJWT
             }else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
                 return response()->json(['token_invalid'], $e->getStatusCode());
             }else{
+
                 return response()->json(['error'=>'Token is required']);
             }
         }
