@@ -24,6 +24,7 @@ class ServiceProvider
             'delete_category'=>\App\Services\Category\DeleteCategoryService::class,
             'insert_category'=>\App\Services\Category\InsertCategoryService::class,
             'insert_post'=>\App\Services\Post\InsertPostService::class,
+            'update_sevice'=>\App\Services\Post\UpdatePostService::class,
         ];
     }
 

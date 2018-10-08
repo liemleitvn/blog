@@ -35,7 +35,7 @@ class InsertPostService
 
         //insert in database
         try {
-            $data = array();
+                $data = array();
 
                 $data['title'] = $request->get('title');
                 $data['category_id'] = $request->get('category');

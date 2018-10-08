@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Middleware\AuthJWT;
 use App\Models\Post;
 use Hamcrest\Thingy;
-use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\PostRepositoryInterface;
@@ -48,7 +47,7 @@ class PostController extends Controller
             }
         }
         catch (\Exception $e) {
-            return \response()->json($e);
+            return response()->json($e);
         }
     }
 
@@ -64,32 +63,18 @@ class PostController extends Controller
         }
     }
 
-    public function update(Request $request, Post $post, $id) {
-
-        if ($request->user()->id !== $post->user_id) {
-            return response()->json(['error' => 'You can only edit your own books.'], 403);
+    //Handler patch api
+    public function edit(Request $request, $id) {
+        //check request
+        if ($request->has('title') && $request->has('category') && $request->has('content')) {
+            return service('update_sevice')->execute($request, $id);
         }
-
-        $checkId = $this->postRepo->find($id);
-        if(!$checkId) {
-
-            return response()->json(['error'=>"{$id} is not exist"], 400);
+        else {
+            return response()->json(['message'=>'Check again request information'],400);
         }
-
-        $data = array();
-
-        $data['title'] = $request->get('title');
-        $data['category_id'] = $request->get('category');
-        $data['content']=$request->get('content');
-        $data['user_id']= $request->user()->id;
-
-        $result = $this->postRepo->update($data, $id);
-
-
-
     }
 
-    public function edit (Request $request, $id) {
+    public function update (Request $request, $id) {
 
     }
 
