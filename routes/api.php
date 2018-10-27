@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware(['auth:api', 'cors'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
@@ -22,14 +22,14 @@ Route::group(['namespace'=>'Api'], function (){
         Route::post('register', 'UserController@register');
         Route::post('login', 'UserController@login');
     });
-    Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::group(['middleware' => ['jwt.auth', 'cors']], function () {
         Route::get('user-info', 'UserController@getUserInfo');
     });
 });
 
-Route::group(['prefix'=>'posts', 'middleware' => 'jwt.auth','namespace'=>'Api' ], function () {
+Route::group(['prefix'=>'posts', 'middleware' => ['jwt.auth','cors'],'namespace'=>'Api' ], function () {
 
-    Route::get('',['uses'=>'PostController@index', 'name'=>'index']);
+    Route::get('/',['uses'=>'PostController@index', 'name'=>'index']);
     Route::get('/{id}', ['uses'=>'PostController@show', 'name'=>'show']);
     Route::post('',['uses'=>'PostController@store', 'name'=>'store']);
     Route::put('/{id}', ['uses'=>'PostController@update', 'name'=>'update']);
@@ -37,7 +37,7 @@ Route::group(['prefix'=>'posts', 'middleware' => 'jwt.auth','namespace'=>'Api' ]
     Route::delete('{id}', ['uses'=>'PostController@delete', 'name'=>'delete']);
 });
 
-Route::group(['prefix'=>'categories', 'middleware' => 'md5.auth','namespace'=>'Api' ], function () {
+Route::group(['prefix'=>'categories', 'middleware' => ['jwt.auth', 'cors'],'namespace'=>'Api' ], function () {
 
     Route::get('',['uses'=>'CategoryController@index', 'name'=>'index']);
     Route::get('/{id}', ['uses'=>'CategoryController@show', 'name'=>'show']);

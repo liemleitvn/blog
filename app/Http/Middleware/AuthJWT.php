@@ -24,13 +24,13 @@ class AuthJWT
         try {
             $user = JWTAuth::parseToken()->authenticate();
             if(!$user) {
-                return response()->json(['user_not_found'], 404);
+                return response()->json(['error'=>'user_not_found'], 404);
             }
         }catch (JWTException $e) {
             if($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
-                return response()->json(['token_expired'], $e->getStatusCode());
+                return response()->json(['error'=>'token_expired'], $e->getStatusCode());
             }else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
-                return response()->json(['token_invalid'], $e->getStatusCode());
+                return response()->json(['error'=>'token_invalid'], $e->getStatusCode());
             }else{
 
                 return response()->json(['error'=>'Token is required']);

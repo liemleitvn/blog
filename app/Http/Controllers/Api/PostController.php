@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Middleware\AuthJWT;
 use App\Models\Post;
 use Hamcrest\Thingy;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\PostRepositoryInterface;
@@ -22,13 +23,17 @@ class PostController extends Controller
     }
 
     public function index() {
+
+        $search = \request('search', '');
+        $page = \request('page', 1);
+
         try {
-            $result = $this->postRepo->all()->toArray();
+            $result = service('get_post')->execute($search, $page);
             if(count($result)>0) {
                 return response()->json($result, 200);
             }
             else {
-                return response()->json(['meseage'=>'The posts is not already.'], 404);
+                return response()->json(['error'=>'The posts is not already.'], 404);
             }
         }
         catch (\Exception $e) {
@@ -54,23 +59,24 @@ class PostController extends Controller
     public function store(Request $request) {
 
 
+
         //check request
         if ($request->has('title') && $request->has('category') && $request->has('content')) {
             return service('insert_post')->execute($request);
         }
         else {
-            return response()->json(['message'=>'Check again request information'],400);
+            return response()->json(['error'=>'Check again request information'],400);
         }
     }
 
     //Handler patch api
     public function edit(Request $request, $id) {
-        //check request
+
         if ($request->has('title') && $request->has('category') && $request->has('content')) {
             return service('update_sevice')->execute($request, $id);
         }
         else {
-            return response()->json(['message'=>'Check again request information'],400);
+            return response()->json(['error'=>'Check again request information'],400);
         }
     }
 
@@ -80,7 +86,24 @@ class PostController extends Controller
 
 
     public function delete($id) {
-        $this->postRepo->delete($id);
-        return response()->json([],204);
+        $checkPost = $this->postRepo->find($id);
+        if($checkPost) {
+            $this->postRepo->delete($id);
+            return response()->json([],204);
+        }
+        else {
+            return response()->json(['error'=>'The post is not exist.'],400);
+        }
+    }
+
+    public function search ($keyword) {
+        try {
+            $result = service('search_post')->execute($keyword);
+
+            return response()->json($result);
+        }
+        catch (\Exception $e) {
+            return response()->json($e->getMessage());
+        }
     }
 }

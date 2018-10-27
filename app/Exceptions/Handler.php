@@ -69,7 +69,7 @@ class Handler extends ExceptionHandler
             if($e instanceof ModelNotFoundException) {
                 return response()->json([
                     'data' => (object)[],
-                    'message' => 'Resource not found',
+                    'error' => 'Resource not found',
                     'status_code' => Response::HTTP_NOT_FOUND
 
                 ], Response::HTTP_NOT_FOUND);
@@ -77,13 +77,13 @@ class Handler extends ExceptionHandler
             if($e instanceof NotFoundHttpException) {
                 return response()->json([
                     'data' => (object)[],
-                    'message' => 'Endpoint not found',
+                    'error' => 'Endpoint not found',
                     'status_code' => Response::HTTP_NOT_FOUND
                 ], Response::HTTP_NOT_FOUND);
             }
             return response()->json([
                 'data' => (object)[],
-                'message' => $e->getMessage(),
+                'error' => $e->getMessage(),
                 'status_code' => Response::HTTP_BAD_REQUEST
             ], Response::HTTP_BAD_REQUEST);
         }

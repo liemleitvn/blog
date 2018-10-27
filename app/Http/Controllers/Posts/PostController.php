@@ -30,8 +30,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        $allPost = $this->postRepo->all()->toArray();
+        $keyword = \request('search', "");
 
+        $allPost = service('get_post')->execute($keyword, $page = 1)->toArray();
         return view('posts.show', compact('allPost'));
 
         // posts join categoties where content = Test
@@ -83,6 +84,7 @@ class PostController extends Controller
     }
 
     public function update (Request $request, $id) {
+
         if($request->has('title') && $request->has('category') && $request->has('content')) {
             $validator = Validator::make($request->all(),[
                 'title'=>'bail|required|max:100',
@@ -92,18 +94,25 @@ class PostController extends Controller
             if($validator->fails()) {
                 return redirect()->route('post.edit',['id'=>$id])->withErrors($validator);
             }
-            else {
 
-                $data['title'] = $request->title;
-                $data['category_id'] = $request->category;
-                $data['content'] = $request->get('content');
-                $data['user_id'] = Auth::user()->id;
+            $post = $this->postRepo->find($id);
 
-                $result = $this->postRepo->update($data, $id);
+            $user_id = $post->user_id;
 
-                return redirect()->route('post.index')
-                    ->with(['updateResult'=>$result]);
+            if($user_id !== Auth::user()->id) {
+                return redirect()->route('post.edit',['id'=>$id])->withErrors(['errors'=>'You can only edit own  your posts.']);
             }
+
+            $data['title'] = $request->title;
+            $data['category_id'] = $request->category;
+            $data['content'] = $request->get('content');
+            $data['user_id'] = Auth::user()->id;
+
+            $result = $this->postRepo->update($data, $id);
+
+            return redirect()->route('post.index')
+                ->with(['updateResult'=>$result]);
+
 
         }
         //request invaild
@@ -115,9 +124,16 @@ class PostController extends Controller
 
     public function delete ($id) {
 
-        //tiep tuc sau khi code xong post
+        $post = $this->postRepo->find($id);
+
+        $user_id = $post->user_id;
+
+        if($user_id !== Auth::user()->id) {
+            return redirect()->route('post.edit',['id'=>$id])->withErrors(['errors'=>'You can only edit own  your posts.']);
+        }
 
         $result = $this->postRepo->delete($id);
         return redirect()->route('post.index')->with(['delResult'=>$result]);
     }
+
 }

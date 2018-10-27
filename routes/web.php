@@ -18,7 +18,6 @@ use Illuminate\Auth\Middleware\Authorize;
 //$test = app('test');
 //dd($test);
 
-
 //php information
 Route::get('info', function() {
     phpinfo();
@@ -65,6 +64,8 @@ Route::group(['prefix' => 'category', 'as' => 'category.', 'namespace' => 'Categ
 
     Route::get('detail/{id}', ['uses'=>'CategoryController@detail', 'as'=>'detail']);
 
+    Route::get('test', 'CategoryController@test');
+
 });
 
 Route::group(['prefix'=>'file', 'as'=>'file','namespace'=>'Upload'], function () {
@@ -76,7 +77,6 @@ Route::group(['prefix'=>'generator', 'as'=>'generator','namespace'=>'PdfGenerate
 	Route::get('/', ['uses'=>'PdfController@index']);
 	Route::post('/', ['uses'=>'PdfController@store']);
 });
-
 
 
 

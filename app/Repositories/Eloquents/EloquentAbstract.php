@@ -20,8 +20,8 @@ abstract class EloquentAbstract
 	// 	$this->makeModel();
 	// }
 
-	public function all($columns = array('*')) {
-		return $this->model->all();
+	public function all($columns = array('*'), $limit = 10) {
+		return $this->model->orderBy('created_at', 'desc')->take($limit)->get($columns);
 	}
 
 	public function find($id,$columns = array('*')) {

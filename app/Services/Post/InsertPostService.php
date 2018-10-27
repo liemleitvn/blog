@@ -30,7 +30,7 @@ class InsertPostService
 
         //validate error
         if ($validator->fails()) {
-            return response()->json(['message'=>$validator->errors()->first()],401);
+            return response()->json(['error'=>$validator->errors()->first()],401);
         }
 
         //insert in database
@@ -46,7 +46,7 @@ class InsertPostService
                     return response()->json(['error'=>'Creating is fail'], 500);
                 }
                 else {
-                    return response()->json([new PostResource($result)],201);
+                    return response()->json("",204);
                 }
         }
         catch (Exception $e) {

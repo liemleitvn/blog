@@ -28,7 +28,7 @@ class UpdatePostService
 
         //if not exsit the post
         if(!$post) {
-            return response()->json(['error' => 'The post is not exsit'], 403);
+            return response()->json(['error' => 'The post is not exsit'], 400);
         }
 
         //get user id by the post
@@ -72,7 +72,7 @@ class UpdatePostService
             }
             else {
 
-                return response()->json(["message"=>"Update successful"],200);
+                return response()->json("", 204);
             }
         }
         catch (Exception $e) {
