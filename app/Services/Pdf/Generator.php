@@ -41,7 +41,7 @@ class Generator {
 			$type = $this->type;
 		}
 
-		$cmd;
+		$cmd = null;
 		if($type=='pdf') {
 
 			$cmd = "wkhtmltopdf $url $outputPath";

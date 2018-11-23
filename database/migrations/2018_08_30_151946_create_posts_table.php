@@ -18,11 +18,13 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->text('content');
             $table ->unsignedInteger('user_id');
+            $table ->unsignedInteger('category_id');
             $table->timestamps();
         });
 
         Schema::table('posts', function(Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 

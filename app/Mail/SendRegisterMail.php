@@ -23,7 +23,6 @@ class SendRegisterMail extends Mailable
     {
         $this->name = $name;
         $this->email = $email;
-        \Log::info('OK?');
     }
 
     /**

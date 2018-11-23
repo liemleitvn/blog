@@ -36,10 +36,24 @@ class PostRepository extends EloquentAbstract implements PostRepositoryInterface
             return $this->model->skip($offset)->take($limit)->orderBy('created_at', 'desc')->get();
         }
 
-        return $this->model->where(function ($query) use ($keyword) {
-            $query->where('title', 'LIKE', "%$keyword%")
-                ->orWhere('content', 'LIKE', "%$keyword%");
+        $result =  $this->model->where(function ($query) use ($keyword) {
+            $query->where('title', 'LIKE', "%{$keyword}%")
+                ->orWhere('content', 'LIKE', "%{$keyword}%");
         })->skip($offset)->take($limit)->get();
+
+        return $result;
+
+    }
+
+    public function getPostByTitle($keyword = "", $offset = 0, $limit = 100)
+    {
+        if($keyword =="") {
+            return $this->model->skip($offset)->take($limit)->orderBy('created_at', 'desc')->get();
+        }
+
+        $posts = $this->model->where('title','LIKE', "%$keyword%")->skip($offset)->take($limit)->get();
+
+        return $posts;
     }
 }
 

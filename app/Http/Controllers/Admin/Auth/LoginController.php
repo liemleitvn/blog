@@ -19,7 +19,7 @@ class LoginController extends Controller
 
     public function __construct()
     {
-       $this->redirectTo = route('admin.dashboard');
+//       $this->redirectTo = route('admin.dashboard');
     }
 
     public function showLoginForm()

@@ -14,28 +14,14 @@ class CreateUserSeeder extends Seeder
      */
     public function run()
     {
-        $author = Role::where('slug', 'author')->first();
-        $editor = Role::where('slug', 'editor')->first();
-        
-        $user1 = User::create([
-            'name' => 'Author 1', 
-            'email' => 'author1@blog.local',
-            'password' => bcrypt('123456')
-        ]);
-        $user1->roles()->attach($author);
-        
-        $user2 = User::create([
-            'name' => 'Author 1', 
-            'email' => 'author2@blog.local',
-            'password' => bcrypt('123456')
-        ]);
-        $user2->roles()->attach($author);
-        
-        $user3 = User::create([
-            'name' => 'Editer 2', 
-            'email' => 'editor1@blog.local',
-            'password' => bcrypt('123456')
-        ]);
-        $user2->roles()->attach($editor);
+        $faker = Faker\Factory::create();
+
+        for ($i = 0; $i<10; $i++) {
+            User::created([
+                'name'=>$faker->name,
+                'email'=>$faker->unique()->email,
+                'password'=>123456
+            ]);
+        }
     }
 }

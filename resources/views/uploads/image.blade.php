@@ -26,5 +26,4 @@
 	        {{ session('status') }}
 	    </div>
 	@endif
-	<script type="text/javascript" src="{{ asset('js/upload-image.js') }}"></script>
 @endsection

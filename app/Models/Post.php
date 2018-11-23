@@ -23,11 +23,11 @@ class Post extends Model
          return User::find($this->user_id)->name;
      }
 
-    public function categories() {
+    public function categorie() {
         return $this->belongsTo(\App\Models\Category::class);
     }
 
-    public function users () {
+    public function user () {
         return $this->belongsTo(\App\Models\User::class);
     }
 

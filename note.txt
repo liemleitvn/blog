@@ -1,0 +1,5 @@
+slack: liemle12345@##aA;
+trello: liemle12345@##aA;
+gitlab: liemle12345@##aA;
+mail: liemle12345@##aA;
+franz: liemleitvn@gmail.com/liemle12345@##aA

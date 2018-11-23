@@ -17,12 +17,19 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
+import UploadImage from './pages/upload-image';
+import SearchPost from './pages/search-post';
+
 const app = new Vue({
     el: '#app'
 });
 
-import Test from './components/test';
+let uploadImage = new UploadImage();
+uploadImage.init();
 
-let test = new Test();
+let searchPost = new SearchPost();
+searchPost.smartSearch();
 
-test.test();
+
+
+

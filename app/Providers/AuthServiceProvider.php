@@ -29,6 +29,5 @@ class AuthServiceProvider extends ServiceProvider
         Gate::resource('post', PostPolicy::class);
         Gate::define('post.publish', PostPolicy::class . '@publish');
         Gate::define('post.draft', PostPolicy::class . '@draft');
-
     }
 }

@@ -13,11 +13,11 @@ class AddColumnKeyValueExpirationToCachesTable extends Migration
      */
     public function up()
     {
-        Schema::table('caches', function($table) {
-            $table->string('key')->unique()->after('id');
-            $table->text('value');
-            $table->integer('expiration');
-        });
+//        Schema::table('caches', function($table) {
+//            $table->string('key')->unique()->after('id');
+//            $table->text('value');
+//            $table->integer('expiration');
+//        });
     }
 
     /**

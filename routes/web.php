@@ -40,6 +40,8 @@ Route::group(['prefix' => 'post', 'as' => 'post.', 'namespace' => 'Posts'], func
 
     Route::get('/', ['uses'=>'PostController@index', 'as'=>'index']);
 
+    Route::get('/{id}', ['uses'=>'PostController@showById', 'as'=>'showById'])->where('id', '[0-9]+');
+
 	Route::get('insert', ['uses' => 'PostController@create', 'as' => 'create']);
 	Route::post('insert',['uses'=>'PostController@store', 'as'=>'store']);
 
@@ -47,6 +49,8 @@ Route::group(['prefix' => 'post', 'as' => 'post.', 'namespace' => 'Posts'], func
     Route::post('update/{id}',['uses'=>'PostController@update', 'as'=>'update']);
 
     Route::get('delete/{id}',['uses'=>'PostController@delete', 'as'=>'delete']);
+
+    Route::get('search', ['uses'=>'PostController@search', 'as'=>'searchTitle']);
 
 });
 

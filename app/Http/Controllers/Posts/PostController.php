@@ -30,7 +30,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $keyword = \request('search', "");
+        $keyword = \request('s', "");
 
         $allPost = service('get_post')->execute($keyword, $page = 1)->toArray();
         return view('posts.show', compact('allPost'));
@@ -40,6 +40,10 @@ class PostController extends Controller
         // dd($posts);
 
         // select * from ports where id = 2
+    }
+
+    public function showById($id) {
+        dd($id);
     }
 
     public function create() {
@@ -136,4 +140,12 @@ class PostController extends Controller
         return redirect()->route('post.index')->with(['delResult'=>$result]);
     }
 
+    public function search () {
+
+        $keyword = $_GET['s'];
+
+       $result = $this->postRepo->getPostByTitle($keyword, 0, 100);
+
+        return response()->json($result);
+    }
 }

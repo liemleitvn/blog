@@ -31,10 +31,11 @@
 	<div class="container">
 		<button class="btn btn-info">
 			<a style="text-decoration: none" href="{{ route('post.create') }}">Insert</a>
+
 		</button>
 		<div style="padding-left: 0" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 			<form class="input-group" action="{{ route('post.index') }}" method="get">
-				<input type="text" class="form-control" name="search" id="search" placeholder="Seach for..."/>
+				<input type="text" class="form-control" name="s" id="searchPost" placeholder="Seach for..."/>
 				<span class="input-group-btn">
                     <button type = "submit" class="btn btn-info">Search</button>
                     <button class="btn btn-warning" type="reset">

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Jobs\ResizeImage;
 use Validator;
-use App\Models\Image;
 
 class ImageController extends Controller
 {
