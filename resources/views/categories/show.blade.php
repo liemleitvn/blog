@@ -19,7 +19,7 @@
 				{{--show post in category--}}
 				<td><a href="{{ url('category/detail/'.$cate['id']) }}">Detail</a></td>
 				{{--update category--}}
-				<td><a href="{{ url('category/update/'.$cate['id']) }}" >Update</a></td>
+				<td><a href="{{ url('category/update/'.$cate['id']) }}" >Edit</a></td>
 				{{--Delete category--}}
 				<td><a href="{{ url('category/delete/'.$cate['id']) }}" >Delete</a></td>
 			</tr>

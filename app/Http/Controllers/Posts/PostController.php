@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\PostRepositoryInterface;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
 use Auth;
+use Illuminate\Support\Facades\Session;
 use Validator;
 
 class PostController extends Controller
@@ -63,10 +64,22 @@ class PostController extends Controller
                 return redirect()->route('post.create')->withErrors($validator);
             }
             else {
+
+                $slug = str_replace(' ','-', $request->title);
+                $posts = $this->postRepo->all();
+
+                //check exist slug in table posts
+                foreach ($posts as $key=>$post) {
+                    if($post->slug == $slug) {
+                        $slug = str_replace(' ','-', $request->title).'-'.($key+1);
+                    }
+                }
+
                 $data['title'] = $request->title;
                 $data['category_id'] = $request->category;
                 $data['content'] = $request->get('content');
                 $data['user_id'] = Auth::user()->id;
+                $data['slug'] = $slug;
 
                 $result = $this->postRepo->create($data);
                 return redirect()->route('post.index')
@@ -82,13 +95,19 @@ class PostController extends Controller
     }
 
     public function edit($id) {
+
         $post = $this->postRepo->find($id);
+
+        if(Auth::user()->cant('posts.update', $post)) {
+            Session::flash('message', 'You can only edit own  your posts.');
+            Session::flash('alert-class', 'alert-danger');
+            return redirect()->route('post.index',['id'=>$id]);
+        }
         $category = $this->categoryRepo->all();
         return view('posts.update', compact('id', 'post', 'category'));
     }
 
     public function update (Request $request, $id) {
-
         if($request->has('title') && $request->has('category') && $request->has('content')) {
             $validator = Validator::make($request->all(),[
                 'title'=>'bail|required|max:100',
@@ -99,18 +118,31 @@ class PostController extends Controller
                 return redirect()->route('post.edit',['id'=>$id])->withErrors($validator);
             }
 
+            $data = [];
+
+            //if not change title, update category_id and content
+            //else change all
             $post = $this->postRepo->find($id);
-
-            $user_id = $post->user_id;
-
-            if($user_id !== Auth::user()->id) {
-                return redirect()->route('post.edit',['id'=>$id])->withErrors(['errors'=>'You can only edit own  your posts.']);
+            if($post->title ===$request->title) {
+                $data['category_id'] = $request->category;
+                $data['content'] = $request->get('content');
             }
+            else {
+                $slug = str_replace(' ','-', $request->title);
+                $posts = $this->postRepo->all();
 
-            $data['title'] = $request->title;
-            $data['category_id'] = $request->category;
-            $data['content'] = $request->get('content');
-            $data['user_id'] = Auth::user()->id;
+                //check exist slug in table posts
+                foreach ($posts as $key=>$post) {
+                    if($post->slug == $slug) {
+                        $slug = str_replace(' ','-', $request->title).'-'.($key+1);
+                    }
+                }
+
+                $data['title'] = $request->title;
+                $data['category_id'] = $request->category;
+                $data['content'] = $request->get('content');
+                $data['slug'] = $slug;
+            }
 
             $result = $this->postRepo->update($data, $id);
 
@@ -127,15 +159,13 @@ class PostController extends Controller
     }
 
     public function delete ($id) {
-
         $post = $this->postRepo->find($id);
 
-        $user_id = $post->user_id;
-
-        if($user_id !== Auth::user()->id) {
-            return redirect()->route('post.edit',['id'=>$id])->withErrors(['errors'=>'You can only edit own  your posts.']);
+        if(Auth::user()->cant('posts.delete', $post)) {
+            Session::flash('message', 'You can only delete own  your posts.');
+            Session::flash('alert-class', 'alert-danger');
+            return redirect()->route('post.index',['id'=>$id]);
         }
-
         $result = $this->postRepo->delete($id);
         return redirect()->route('post.index')->with(['delResult'=>$result]);
     }

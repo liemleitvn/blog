@@ -11,6 +11,17 @@ class PostPolicy
     use HandlesAuthorization;
 
     /**
+     * Authorization for admin (demo)
+     * @param User $user
+     * @return bool
+     */
+    public function before(User $user) {
+        if($user->id===1) {
+            return true;
+        }
+    }
+
+    /**
      * Determine whether the user can view the post.
      *
      * @param  \App\Models\User  $user
@@ -54,16 +65,16 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        //
+        return $user->hasAccess(['post.delete']) or $user->id == $post->user_id;
     }
 
-    public function publish(User $user)
-    {
-        return $user->hasAccess(['post.publish']);
-    }
-
-    public function draft(User $user)
-    {
-        return $user->inRole('editor');
-    }
+//    public function publish(User $user)
+//    {
+//        return $user->hasAccess(['post.publish']);
+//    }
+//
+//    public function draft(User $user)
+//    {
+//        return $user->inRole('editor');
+//    }
 }

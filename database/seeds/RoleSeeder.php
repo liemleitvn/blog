@@ -12,20 +12,30 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        $author = Role::create([
-        	'name'=>'Author',
-        	'slug'=>'author',
-        	'permissions'=>[
-        		'post.create'=>true,
-        	]
-        ]);
-        $Editer = Role::create([
-        	'name'=>'Editer',
-        	'slug'=>'editer',
-        	'permissions'=>[
-        		'post.update'=>true,
-        		'post.publish'=>true,
-        	]
-        ]);
+        $roles = [
+            [
+                'name'=>'Super Admin',
+                'slug'=>'super-admin'
+            ],
+            [
+                'name'=>'Admin',
+                'slug'=>'admin',
+            ],
+            [
+                'name'=>'Editor',
+                'slug'=>'editor'
+            ],
+            [
+                'name'=>'User',
+                'slug'=>'user'
+            ]
+        ];
+
+        foreach ($roles as $role) {
+            Role::create([
+                'name'=>$role['name'],
+                'slug'=>$role['slug'],
+            ]);
+        }
     }
 }

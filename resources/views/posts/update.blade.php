@@ -13,9 +13,8 @@
                 <td><label for="category">Category</label></td>
                 <td>
                     <select name="category" id="category">
-                        <option value="">---Select Category---</option>
                         @foreach($category as $cate)
-                            <option value="{{ $cate->id }}">{{ $cate->name }}</option>
+                            <option value="{{ $cate->id }}" {{ $post->category_id ===$cate->id? 'selected':'' }}>{{ $cate->name }}</option>
                         @endforeach
                     </select>
                 </td>

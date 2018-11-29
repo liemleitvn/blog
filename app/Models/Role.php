@@ -9,7 +9,7 @@ class Role extends Model
     protected $table = 'roles';
 
         protected $fillable = [
-        'name', 'slug', 'permissions',
+        'name', 'slug', 'description',
     ];
     protected $casts = [
         'permissions' => 'array',
@@ -17,7 +17,11 @@ class Role extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'role_users');
+        return $this->belongsToMany(User::class, 'roles_users');
+    }
+
+    public function permissions() {
+        return $this->belongsToMany(Permission::class, 'roles_permissions', 'role_id', 'permission_id');
     }
 
     public function hasAccess(array $permissions) : bool

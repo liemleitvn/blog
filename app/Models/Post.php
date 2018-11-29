@@ -23,7 +23,7 @@ class Post extends Model
          return User::find($this->user_id)->name;
      }
 
-    public function categorie() {
+    public function category() {
         return $this->belongsTo(\App\Models\Category::class);
     }
 

@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+	@if(Session::has('message'))
+		<p class="alert alert-danger container {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+	@endif
     {{--Result insert category--}}
     @if($insertResult = Session::get('insertResult'))
         @if($insertResult == true)
@@ -29,18 +32,13 @@
         @endif
     @endif
 	<div class="container">
-		<button class="btn btn-info">
-			<a style="text-decoration: none" href="{{ route('post.create') }}">Insert</a>
-
-		</button>
-		<div style="padding-left: 0" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+		<div style="padding-left: 0; float: right">
 			<form class="input-group" action="{{ route('post.index') }}" method="get">
-				<input type="text" class="form-control" name="s" id="searchPost" placeholder="Seach for..."/>
+				<input style = "border: none" type="text" class="form-control" name="s" id="searchPost" placeholder="Seach for..."/>
 				<span class="input-group-btn">
                     <button type = "submit" class="btn btn-info">Search</button>
-                    <button class="btn btn-warning" type="reset">
-						<a style="text-decoration: none" href="{{route('post.index')}}">Clear</a>
-					</button>
+					<a class="btn btn-warning" style="text-decoration: none" href="{{route('post.index')}}">Clear</a>
+					<a class="btn btn-info" style="float:right; margin-left: 5px; text-decoration: none" href="{{ route('post.create') }}">Insert</a>
 				</span>
 			</form>
 		</div>
@@ -58,24 +56,18 @@
 						<th width="10%">Category</th>
 						<td width="15%">Action</td>
 					</tr>
-                    <?php $index = 1 ?>
-					@foreach ($allPost as $post)
+					@foreach ($allPost as $key=>$post)
 						<tr>
-							<td>{{ $index }}</td>
+							<td>{{ $key + 1 }}</td>
 							<td>{{ $post['title'] }}</td>
 							<td>{{ $post['content'] }}</td>
 							<td>{{ $post['user'] }}</td>
 							<td>{{ $post['category'] }}</td>
 							<td>
-								<button class="btn btn-warning">
-									<a style="text-decoration: none" href="{{ url('post/update/'.$post['id']) }}">Edit</a>
-								</button>
-								<button class="btn btn-danger">
-									<a style="text-decoration: none" href="{{ url('post/delete/'.$post['id']) }}">Delete</a>
-								</button>
+								<a  class="btn btn-warning" style="text-decoration: none" href="{{ url('post/update/'.$post['id']) }}">Edit</a>
+								<a class="btn btn-danger" style="text-decoration: none" href="{{ url('post/delete/'.$post['id']) }}">Delete</a>
 							</td>
 						</tr>
-                        <?php $index++ ?>
 					@endforeach
 				</table>
 			</div>

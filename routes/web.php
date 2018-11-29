@@ -82,6 +82,20 @@ Route::group(['prefix'=>'generator', 'as'=>'generator','namespace'=>'PdfGenerate
 	Route::post('/', ['uses'=>'PdfController@store']);
 });
 
+Route::group(['prefix'=>'admin', 'as'=>'admin.', 'namespace'=>'Admin'], function (){
+    Route::group(['prefix'=>'roles', 'as'=>'roles.', 'namespace'=>'Role'], function (){
+        Route::get('/', ['uses'=>'RoleManagerController@index', 'as'=>'index']);
+        Route::post('/insert', ['uses'=>'RoleManagerController@store', 'as'=>'insert']);
+        Route::get('/edit/{id}', ['uses'=>'RoleManagerController@edit', 'as'=>'edit']);
+        Route::post('/update/{id}', ['uses'=>'RoleManagerController@update', 'as'=>'update']);
+        Route::get('/delete/{id}', ['uses'=>'RoleManagerController@destroy', 'as'=>'delete']);
+    });
+
+    Route::group(['prefix'=>'users', 'as'=>'users', 'namespace'=>'User'], function () {
+        Route::get('/', ['uses'=>'UserManagerController@index', 'as'=>'index']);
+    });
+});
+
 
 
 

@@ -34,10 +34,15 @@ class AppServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\CategoryRepositoryInterface',
             'App\Repositories\Eloquents\CategoryRepository'
         );
+        $this->app->bind(
+            'App\Repositories\Contracts\RoleRepositoryInterface',
+            'App\Repositories\Eloquents\RoleRepository'
+        );
+        $this->app->bind(
+            'App\Repositories\Contracts\PermissionRepositoryInterface',
+            'App\Repositories\Eloquents\PermissionRepository'
+        );
 
-        $this->app->bind('test', function ($app) {
-            return new \App\test(['driver'=>'12345', 'table'=>'test', 'connection'=>'connection']);
-        });
 
     }
 }

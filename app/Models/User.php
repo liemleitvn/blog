@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Contracts\Auth\CanResetPassword;
+use App\Models\Role;
+use App\Models\Post;
 
 class User extends Authenticatable
 {
@@ -17,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'last_login_at', 'last_login_ip',
     ];  
 
     /**
@@ -31,14 +34,14 @@ class User extends Authenticatable
 
     //relationship many-many with table roles
     public function roles() {
-        return $this->belongsToMany(\App\Models\Role::class,'role_users');
+        return $this->belongsToMany(Role::class,'roles_users');
     }
 
     public function posts () {
-        return $this->hasMany(\App\Models\Post::class);
+        return $this->hasMany(Post::class);
     }
 
-        public function hasAccess(array $permissions) : bool
+    public function hasAccess(array $permissions) : bool
     {
         // check if the permission is available in any role
         foreach ($this->roles as $role) {
@@ -50,11 +53,23 @@ class User extends Authenticatable
     }
 
     /**
-     * Checks if the user belongs to role.
+     * Checks if the user belongs to many role.
      */
-    public function inRole(string $roleSlug)
-    {
-        return $this->roles()->where('slug', $roleSlug)->count() == 1;
+    public function hasRole( ... $roles ) {
+        foreach ($roles as $role) {
+            if ($this->roles->contains('slug', $role)) {
+                return true;
+            }
+        }
+        return false;
     }
 
+    public function hasPermissionThroughRole($permission) {
+        foreach ($permission->roles as $role){
+            if($this->roles->contains($role)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

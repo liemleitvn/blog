@@ -14,7 +14,6 @@ use App\Services\Factory\bak;
 
 class CategoryController extends Controller
 {
-
     private $categoryRepo;
 
     public function __construct(CategoryRepositoryInterface $categoryRepo) {
@@ -76,8 +75,10 @@ class CategoryController extends Controller
                             ->with(['status'=>'Category is exist']);
                     }
                 }
+                $slug = str_replace(' ', '-', $category);
 
                 $data['name']= $category;
+                $data['slug'] = $slug;
 
                 $result = $this->categoryRepo->create($data);
                 return redirect()->route('category.index')
@@ -102,7 +103,6 @@ class CategoryController extends Controller
 
     public function update(Request $request, $id) {
 
-
         if($request->has('category')) {
             $validator = Validator::make($request->all(),[
                 'category'=>'bail|required|',
@@ -112,7 +112,21 @@ class CategoryController extends Controller
             }
             else {
 
-                $data['name'] = $request->category;
+                $category = $request->input('category');
+
+                //check d input already in database
+                $all = $this->categoryRepo->all()->toArray();
+                foreach ($all as $item) {
+                    if ($category == $item['name']) {
+                        return redirect()->route('category.create')
+                            ->with(['status'=>'Category is exist']);
+                    }
+                }
+                $slug = str_replace(' ', '-', $category);
+
+                $data['name']= $category;
+                $data['slug'] = $slug;
+
                 $result = $this->categoryRepo->update($data, $id);
 
                 return redirect()->route('category.index')
@@ -139,20 +153,5 @@ class CategoryController extends Controller
         $result = $this->categoryRepo->getPostByCategoryId($id)->toArray();
         $result = $result[0]; //lay category theo id nen chi co 1 record
         return view ('categories.detail', compact('result'));
-
-    }
-
-    public function test() {
-        // Tạo mới một CURL
-        $ch = curl_init();
-
-        // Cấu hình cho CURL
-        curl_setopt($ch, CURLOPT_URL, "https://freetuts.net/");
-
-        // Thực thi CURL
-        curl_exec($ch);
-
-        // Ngắt CURL, giải phóng
-        curl_close($ch);
     }
 }

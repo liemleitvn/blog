@@ -14,14 +14,15 @@ class CreateUserSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker\Factory::create();
-
-        for ($i = 0; $i<10; $i++) {
-            User::created([
-                'name'=>$faker->name,
-                'email'=>$faker->unique()->email,
-                'password'=>123456
-            ]);
-        }
+        User::create([
+            'name'=>'Super Admin',
+            'email'=>'superadmin@blog.local',
+            'password'=>Hash::make(123456),
+        ]);
+        User::create([
+            'name'=>'Admin',
+            'email'=>'admin@blog.local',
+            'password'=>Hash::make(123456),
+        ]);
     }
 }
