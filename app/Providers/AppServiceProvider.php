@@ -42,6 +42,10 @@ class AppServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\PermissionRepositoryInterface',
             'App\Repositories\Eloquents\PermissionRepository'
         );
+        $this->app->bind(
+            'App\Repositories\Contracts\UserRepositoryInterface',
+            'App\Repositories\Eloquents\UserRepository'
+        );
 
 
     }

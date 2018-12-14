@@ -2,11 +2,23 @@
 
 namespace App\Http\Controllers\Admin\User;
 
+use App\Repositories\Contracts\RoleRepositoryInterface;
+use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class UserManagerController extends Controller
 {
+    private $user;
+    private $role;
+
+    public function __construct(UserRepositoryInterface $userRepository, RoleRepositoryInterface $roleRepository)
+    {
+        $this->user = $userRepository;
+        $this->role = $roleRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +26,9 @@ class UserManagerController extends Controller
      */
     public function index()
     {
+        $users = $this->user->get([],0,10,15);
 
+        return view('admin.user.index', compact('users'));
     }
 
     /**
@@ -57,7 +71,10 @@ class UserManagerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = $this->user->find($id);
+        $roles = $this->role->all();
+
+        return view('admin.user.edit', compact('user', 'roles'));
     }
 
     /**
@@ -69,7 +86,21 @@ class UserManagerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $role_id = $request->role;
+
+        if($role_id != -1) {
+            $user = $this->user->find($id);
+
+            foreach ($user ->roles as $role) {
+                if($role->pivot->role_id == $role_id) {
+                    Session::flash('message', 'This role is already in user');
+                    Session::flash('alert-class', 'alert-danger');
+                    return redirect()->route('admin.users.edit', ['id'=>$id]);
+                }
+            }
+            $user->roles()->attach($role_id);
+        }
+        return redirect()->route('admin.users.edit', ['id'=>$id]);
     }
 
     /**
@@ -81,5 +112,9 @@ class UserManagerController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function deleteRoleUser(Request $request) {
+        return response()->json($request);
     }
 }

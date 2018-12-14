@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 offset-2">
+    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 offset-1">
         <div class="container">
             {{--Show error if error validate--}}
             @if ($errors->any())

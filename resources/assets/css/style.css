@@ -1,0 +1,4 @@
+.delete-role-in-user {display: none}
+.role-in-user:hover +.delete-role-in-user{
+    display: block;
+}

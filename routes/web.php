@@ -91,11 +91,14 @@ Route::group(['prefix'=>'admin', 'as'=>'admin.', 'namespace'=>'Admin'], function
         Route::get('/delete/{id}', ['uses'=>'RoleManagerController@destroy', 'as'=>'delete']);
     });
 
-    Route::group(['prefix'=>'users', 'as'=>'users', 'namespace'=>'User'], function () {
+    Route::group(['prefix'=>'users', 'as'=>'users.', 'namespace'=>'User'], function () {
         Route::get('/', ['uses'=>'UserManagerController@index', 'as'=>'index']);
+        Route::get('/edit/{id}', ['uses'=>'UserManagerController@edit', 'as'=>'edit']);
+        Route::post('/update/{id}', ['uses'=>'UserManagerController@update', 'as'=>'update']);
+        Route::get('/delete/{id}', ['uses'=>'UserManagerController@destroy', 'as'=>'delete'])->where('id', '[0-9]+');
+        Route::post('/delete/role-user', ['uses'=>'UserManagerController@deleteRoleUser', 'as'=>'delete-role-user']);
     });
 });
-
 
 
 
